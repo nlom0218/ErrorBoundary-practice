@@ -31,6 +31,8 @@ const DeleteCrewTryCatch = () => {
     }
   };
 
+  if (crews.length === 0) return <div>등록된 크루가 없습니다.</div>;
+
   return (
     <div>
       <ManagerInput managerCode={managerCode} setManagerCode={setManagerCode} />
