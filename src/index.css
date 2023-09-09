@@ -19,7 +19,6 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
   font-size: 20px;
 }
 
@@ -37,6 +36,12 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
   font-size: 20px;
+}
+
+.delete-button {
+  font-size: 14px;
+  background-color: #ffbbbb;
+  border-radius: 4px;
 }
 
 @media (prefers-color-scheme: light) {
@@ -79,4 +84,13 @@ input[type='number']::-webkit-outer-spin-button {
 input {
   outline: none;
   border: none;
+}
+
+li {
+  list-style-type: none;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
 }

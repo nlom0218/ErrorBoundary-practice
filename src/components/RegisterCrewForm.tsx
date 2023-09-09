@@ -20,7 +20,7 @@ const RegisterCrewForm = ({ crew, setCrew, registerCrew }: Props) => {
         value={crew || ''}
         id="register"
         placeholder="노아"
-        onChange={(e) => setCrew(e.currentTarget.value)}
+        onChange={(e) => setCrew(e.target.value)}
       />
       <button type="submit">등록</button>
     </form>

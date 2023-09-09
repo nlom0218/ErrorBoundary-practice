@@ -55,4 +55,46 @@ export const crewHandler = [
 
     return res(ctx.status(201));
   }),
+
+  rest.get('/api/crew', (_req, res, ctx) => {
+    const crews = JSON.parse(localStorage.getItem('crews') || '[]') as string[];
+
+    return res(ctx.json(crews));
+  }),
+
+  rest.delete('/api/crew', (req, res, ctx) => {
+    const requestBody = req.body as {
+      managerCode: string | null;
+      crewName: string;
+    };
+
+    const { managerCode, crewName } = requestBody;
+
+    // 관리가 코드가 없는 경우
+    if (!managerCode)
+      return res(
+        ctx.status(403),
+        ctx.json({ code: 1100, message: '관리자코드를 입력하지 않았습니다.' })
+      );
+
+    if (managerCode !== 'ABC123')
+      return res(
+        ctx.status(403),
+        ctx.json({ code: 1101, message: '관리자코드가 올바르지 않습니다.' })
+      );
+
+    const crews = JSON.parse(localStorage.getItem('crews') || '[]') as string[];
+
+    if (!crews.includes(crewName))
+      return res(
+        ctx.status(403),
+        ctx.json({ code: 1102, message: '등록되지 않는 크루입니다.' })
+      );
+
+    const newCrews = crews.filter((crew) => crew !== crewName);
+
+    localStorage.setItem('crews', JSON.stringify(newCrews));
+
+    return res(ctx.status(201), ctx.json(newCrews));
+  }),
 ];
