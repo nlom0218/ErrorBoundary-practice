@@ -1,10 +1,27 @@
+import React, { FormEventHandler } from 'react';
 import './RegisterCrewForm.css';
 
-const RegisterCrewForm = () => {
+type Props = {
+  crew: string | null;
+  setCrew: React.Dispatch<React.SetStateAction<string | null>>;
+  registerCrew: () => void;
+};
+
+const RegisterCrewForm = ({ crew, setCrew, registerCrew }: Props) => {
+  const submitForm: FormEventHandler = (e) => {
+    e.preventDefault();
+    registerCrew();
+  };
+
   return (
-    <form>
+    <form onSubmit={submitForm}>
       <label htmlFor="register">크루 등록하기</label>
-      <input id="register" placeholder="노아" />
+      <input
+        value={crew || ''}
+        id="register"
+        placeholder="노아"
+        onChange={(e) => setCrew(e.currentTarget.value)}
+      />
       <button type="submit">등록</button>
     </form>
   );
