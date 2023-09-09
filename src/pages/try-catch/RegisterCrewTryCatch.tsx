@@ -1,33 +1,21 @@
 import { useState } from 'react';
 import RegisterCrewForm from '../../components/RegisterCrewForm';
-import { APIError, isAPIError } from '../../api/common';
+import { APIError } from '../../api/common';
+import http from '../../api/http';
 
 const RegisterCrewTryCatch = () => {
   const [crew, setCrew] = useState<string | null>(null);
 
   const registerCrew = async () => {
     try {
-      const response = await fetch('/api/crew', {
-        method: 'POST',
+      await http.post('/api/crew', {
         body: JSON.stringify({ crew }),
-        headers: { 'Content-Type': 'application/json' },
       });
 
-      if (response.ok) {
-        alert('성공적으로 등록되었습니다.');
-        return;
-      }
-
-      const data = await response.json();
-
-      if (isAPIError(data)) {
-        throw new APIError(data.code, data.message);
-      }
-
-      throw new Error();
+      alert('성공적으로 등록되었습니다.');
     } catch (error) {
       if (error instanceof APIError) alert(error.message);
-      return;
+      else throw error;
     } finally {
       setCrew(null);
     }
