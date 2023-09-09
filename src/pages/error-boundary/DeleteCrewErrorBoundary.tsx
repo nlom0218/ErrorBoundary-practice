@@ -1,4 +1,4 @@
-const ModifyCrewErrorBoundary = () => {
+const DeleteCrewErrorBoundary = () => {
   return (
     <div>
       <span>크루를 수정, 삭제합니다. - ErrorBoundary</span>
@@ -6,4 +6,4 @@ const ModifyCrewErrorBoundary = () => {
   );
 };
 
-export default ModifyCrewErrorBoundary;
+export default DeleteCrewErrorBoundary;

@@ -7,10 +7,10 @@ import TryCatch from './pages/try-catch';
 import ErrorBoundary from './pages/error-boundary';
 import RegisterCrewTryCatch from './pages/try-catch/RegisterCrewTryCatch';
 import ShowCrewTryCatch from './pages/try-catch/ShowCrewTryCatch';
-import ModifyCrewTryCatch from './pages/try-catch/ModifyCrewTryCatch';
+import DeleteCrewTryCatch from './pages/try-catch/DeleteCrewTryCatch';
 import ShowCrewErrorBoundary from './pages/error-boundary/ShowCrewErrorBoundary';
 import RegisterCrewErrorBoundary from './pages/error-boundary/RegisterCrewErrorBoundary';
-import ModifyCrewErrorBoundary from './pages/error-boundary/ModifyCrewErrorBoundary';
+import DeleteCrewErrorBoundary from './pages/error-boundary/DeleteCrewErrorBoundary';
 
 const router = createBrowserRouter([
   {
@@ -34,12 +34,11 @@ const router = createBrowserRouter([
             element: <ShowCrewTryCatch />,
           },
           {
-            path: 'modify-crew',
-            element: <ModifyCrewTryCatch />,
+            path: 'delete-crew',
+            element: <DeleteCrewTryCatch />,
           },
         ],
       },
-
       {
         path: 'error-boundary',
         element: <ErrorBoundary />,
@@ -53,8 +52,8 @@ const router = createBrowserRouter([
             element: <ShowCrewErrorBoundary />,
           },
           {
-            path: 'modify-crew',
-            element: <ModifyCrewErrorBoundary />,
+            path: 'delete-crew',
+            element: <DeleteCrewErrorBoundary />,
           },
         ],
       },

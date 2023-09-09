@@ -1,4 +1,4 @@
-const ModifyCrewTryCatch = () => {
+const DeleteCrewTryCatch = () => {
   return (
     <div>
       <span>크루를 수정, 삭제합니다. - try/catch</span>
@@ -6,4 +6,4 @@ const ModifyCrewTryCatch = () => {
   );
 };
 
-export default ModifyCrewTryCatch;
+export default DeleteCrewTryCatch;
