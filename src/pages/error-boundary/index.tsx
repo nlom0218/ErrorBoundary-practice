@@ -1,13 +1,16 @@
 import { Outlet } from 'react-router-dom';
 import Navigation from '../../components/Navigation';
+import CustomErrorBoundary from '../../components/CustomErrorBoundary';
 
 const ErrorBoundary = () => {
   return (
-    <div>
-      <h1>ErrorBoundary</h1>
-      <Navigation />
-      <Outlet />
-    </div>
+    <CustomErrorBoundary>
+      <div>
+        <h1>ErrorBoundary</h1>
+        <Navigation />
+        <Outlet />
+      </div>
+    </CustomErrorBoundary>
   );
 };
 

@@ -8,6 +8,7 @@ const http = {
     if (response.ok) return data;
 
     if (isAPIError(data)) {
+      console.log(data);
       throw new APIError(data.code, data.message);
     }
 

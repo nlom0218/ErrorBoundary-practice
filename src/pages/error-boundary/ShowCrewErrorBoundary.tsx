@@ -1,7 +1,47 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import http from '../../api/http';
+import Crew from '../../components/Crew';
+import { APIError } from '../../api/common';
+
 const ShowCrewErrorBoundary = () => {
+  const { search } = useLocation();
+
+  const [error, setError] = useState<APIError | Error | null>(null);
+  const [crews, setCrews] = useState<string[]>([]);
+
+  const requestCrews = async () => {
+    try {
+      const data = await http.get<string[]>(`/api/crew/${search}`);
+
+      setCrews(data);
+    } catch (error) {
+      if (error instanceof APIError) {
+        setError(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    requestCrews();
+  }, []);
+
+  useEffect(() => {
+    if (error) {
+      throw error;
+    }
+  }, [error]);
+
+  if (crews.length === 0) return <div>등록된 크루가 없습니다.</div>;
+
   return (
     <div>
-      <span>크루를 확인합니다. - ErrorBoundary</span>
+      <ul>
+        {crews.map((crew) => (
+          <Crew key={crew} crew={crew} />
+        ))}
+      </ul>
     </div>
   );
 };
