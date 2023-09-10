@@ -1,14 +1,27 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import Crew from '../../components/Crew';
 import http from '../../api/http';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { APIError } from '../../api/common';
 
 const ShowCrewTryCatch = () => {
+  const { search } = useLocation();
+  const navigate = useNavigate();
+
   const [crews, setCrews] = useState<string[]>([]);
 
   const requestCrews = async () => {
-    const data = await http.get<string[]>('/api/crew');
+    try {
+      const data = await http.get<string[]>(`/api/crew/${search}`);
 
-    setCrews(data);
+      setCrews(data);
+    } catch (error) {
+      if (error instanceof APIError) {
+        alert(error.message);
+        navigate('/');
+      } else throw error;
+    }
   };
 
   useEffect(() => {

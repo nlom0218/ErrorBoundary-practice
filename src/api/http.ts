@@ -5,7 +5,13 @@ const http = {
     const response = await fetch(url);
     const data: T = await response.json();
 
-    return data;
+    if (response.ok) return data;
+
+    if (isAPIError(data)) {
+      throw new APIError(data.code, data.message);
+    }
+
+    throw new Error();
   },
 
   post: async (url: string, config: RequestInit = {}) => {

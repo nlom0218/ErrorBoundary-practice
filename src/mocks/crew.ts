@@ -57,6 +57,12 @@ export const crewHandler = [
   }),
 
   rest.get('/api/crew', (_req, res, ctx) => {
+    if (_req.url.search === '?error=server')
+      return res(
+        ctx.status(500),
+        ctx.json({ code: 1300, message: '서버와 통신이 불안정 합니다.' })
+      );
+
     const crews = JSON.parse(localStorage.getItem('crews') || '[]') as string[];
 
     return res(ctx.json(crews));

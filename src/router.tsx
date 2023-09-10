@@ -34,6 +34,10 @@ const router = createBrowserRouter([
             element: <ShowCrewTryCatch />,
           },
           {
+            path: 'show-crew?error=server',
+            element: <ShowCrewTryCatch />,
+          },
+          {
             path: 'delete-crew',
             element: <DeleteCrewTryCatch />,
           },
