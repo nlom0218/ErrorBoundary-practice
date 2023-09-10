@@ -94,3 +94,26 @@ ul {
   margin: 0;
   padding: 0;
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+label {
+  align-self: flex-start;
+  font-size: 24px;
+  color: black;
+}
+
+input {
+  font-size: 20px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: 1px solid rgb(205, 205, 205);
+
+  &::placeholder {
+    color: rgb(147, 147, 147);
+  }
+}

@@ -1,33 +1,35 @@
-import { useState } from 'react';
-import RegisterCrewForm from '../../components/RegisterCrewForm';
-import { APIError } from '../../api/common';
-import http from '../../api/http';
+import { FormEventHandler, useState } from 'react';
+
+import { useRegisterCrew } from '../../hooks/useCrew';
 
 const RegisterCrewTryCatch = () => {
-  const [crew, setCrew] = useState<string | null>(null);
+  const [crewName, setCrewName] = useState<string>();
 
-  const registerCrew = async () => {
-    try {
-      await http.post('/api/crew', {
-        body: JSON.stringify({ crew }),
-      });
+  const { error, registerCrew } = useRegisterCrew({
+    onComplete: () => setCrewName(undefined),
+  });
 
-      alert('성공적으로 등록되었습니다.');
-    } catch (error) {
-      if (error instanceof APIError) alert(error.message);
-      else throw error;
-    } finally {
-      setCrew(null);
-    }
+  const submitForm: FormEventHandler = (e) => {
+    e.preventDefault();
+    registerCrew(crewName);
   };
+
+  if (error) {
+    alert(error.message);
+  }
 
   return (
     <div>
-      <RegisterCrewForm
-        crew={crew}
-        setCrew={setCrew}
-        registerCrew={registerCrew}
-      />
+      <form onSubmit={submitForm}>
+        <label htmlFor="register">크루 등록하기</label>
+        <input
+          value={crewName}
+          id="register"
+          placeholder="노아"
+          onChange={(e) => setCrewName(e.target.value)}
+        />
+        <button type="submit">등록</button>
+      </form>
     </div>
   );
 };
