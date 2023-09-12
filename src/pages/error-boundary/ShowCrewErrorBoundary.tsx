@@ -8,7 +8,6 @@ import { APIError } from '../../api/common';
 const ShowCrewErrorBoundary = () => {
   const { search } = useLocation();
 
-  const [error, setError] = useState<APIError | Error | null>(null);
   const [crews, setCrews] = useState<string[]>([]);
 
   const requestCrews = async () => {
@@ -17,21 +16,14 @@ const ShowCrewErrorBoundary = () => {
 
       setCrews(data);
     } catch (error) {
-      if (error instanceof APIError) {
-        setError(error);
-      }
+      if (error instanceof APIError) throw error;
+      if (error instanceof Error) throw error;
     }
   };
 
   useEffect(() => {
     requestCrews();
   }, []);
-
-  useEffect(() => {
-    if (error) {
-      throw error;
-    }
-  }, [error]);
 
   if (crews.length === 0) return <div>등록된 크루가 없습니다.</div>;
 

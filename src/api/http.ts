@@ -15,40 +15,68 @@ const http = {
     throw new Error();
   },
 
-  post: async (url: string, config: RequestInit = {}) => {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      ...config,
-    });
+  request: async (url: string, config: RequestInit = {}) => {
+    try {
+      const response = await fetch(url, {
+        headers: { 'Content-Type': 'application/json' },
+        ...config,
+      });
 
-    if (response.ok) return;
+      const data = await response.json();
 
-    const data = await response.json();
+      if (response.ok) return data;
 
-    if (isAPIError(data)) {
-      throw new APIError(data.code, data.message);
+      if (isAPIError(data)) {
+        throw new APIError(data.code, data.message);
+      }
+    } catch (error) {
+      if (error instanceof APIError) throw error;
+      if (error instanceof Error) throw error;
     }
+  },
 
-    throw new Error();
+  post: async (url: string, config: RequestInit = {}) => {
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        ...config,
+      });
+
+      if (response.ok) return;
+
+      const data = await response.json();
+
+      if (response.ok) return data;
+
+      if (isAPIError(data)) {
+        throw new APIError(data.code, data.message);
+      }
+    } catch (error) {
+      if (error instanceof APIError) throw error;
+      if (error instanceof Error) throw error;
+    }
   },
 
   delete: async (url: string, config: RequestInit = {}) => {
-    const response = await fetch(url, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      ...config,
-    });
+    try {
+      const response = await fetch(url, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        ...config,
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (response.ok) return data;
+      if (response.ok) return data;
 
-    if (isAPIError(data)) {
-      throw new APIError(data.code, data.message);
+      if (isAPIError(data)) {
+        throw new APIError(data.code, data.message);
+      }
+    } catch (error) {
+      if (error instanceof APIError) throw error;
+      if (error instanceof Error) throw error;
     }
-
-    throw new Error();
   },
 };
 

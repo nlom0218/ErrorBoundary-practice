@@ -2,8 +2,8 @@ import { rest } from 'msw';
 
 export const crewHandler = [
   rest.post('/api/crew', (req, res, ctx) => {
-    const requestBody = req.body as { crew: string };
-    const crewName = requestBody.crew;
+    const requestBody = req.body as { crewName: string };
+    const crewName = requestBody.crewName;
 
     // crewName이 없는 경우
     if (!crewName)
@@ -53,7 +53,7 @@ export const crewHandler = [
 
     localStorage.setItem('crews', JSON.stringify(crews));
 
-    return res(ctx.status(201));
+    return res(ctx.status(201), ctx.json({ crewName }));
   }),
 
   rest.get('/api/crew', (_req, res, ctx) => {

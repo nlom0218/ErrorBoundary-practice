@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Navigation from '../../components/Navigation';
 import CustomErrorBoundary from '../../components/CustomErrorBoundary';
+import LocalErrorBoundary from '../../components/LocalErrorBoundary';
 
 const ErrorBoundary = () => {
   return (
@@ -8,7 +9,9 @@ const ErrorBoundary = () => {
       <div>
         <h1>ErrorBoundary</h1>
         <Navigation />
-        <Outlet />
+        <LocalErrorBoundary>
+          <Outlet />
+        </LocalErrorBoundary>
       </div>
     </CustomErrorBoundary>
   );

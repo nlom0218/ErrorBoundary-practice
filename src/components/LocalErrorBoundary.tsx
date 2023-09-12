@@ -12,7 +12,7 @@ type State = {
   info: ServiceError;
 };
 
-class CustomErrorBoundary extends Component<Props, State> {
+class LocalErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -46,7 +46,7 @@ class CustomErrorBoundary extends Component<Props, State> {
       } else {
         return (
           <div>
-            <h2>에러가 발생했습니다.</h2>
+            <h2>Local Error</h2>
             <p>{info?.message}</p>
             <button
               onClick={() => {
@@ -67,4 +67,4 @@ class CustomErrorBoundary extends Component<Props, State> {
   }
 }
 
-export default CustomErrorBoundary;
+export default LocalErrorBoundary;

@@ -2,33 +2,44 @@ import { useEffect, useState } from 'react';
 import ManagerInput from '../../components/ManagerInput';
 import Crew from '../../components/Crew';
 import http from '../../api/http';
-import { APIError } from '../../api/common';
+import { useMutation } from '../../hooks/useMutation';
+
+type ResponseDeleteCrew = string[];
 
 const DeleteCrewTryCatch = () => {
   const [managerCode, setManagerCode] = useState<string | null>(null);
   const [crews, setCrews] = useState<string[]>([]);
 
-  const requestCrews = async () => {
-    const data = await http.get<string[]>('/api/crew');
+  const { mutate, error, clearError } = useMutation<ResponseDeleteCrew>({
+    onSuccess: (data) => setCrews(data),
+  });
 
-    setCrews(data);
+  const deleteCrew = (crewName: string) => {
+    mutate(() =>
+      http.delete('/api/crew', {
+        body: JSON.stringify({ managerCode, crewName }),
+      })
+    );
   };
 
   useEffect(() => {
     requestCrews();
   }, []);
 
-  const deleteCrew = async (crewName: string) => {
-    try {
-      const data = await http.delete('/api/crew', {
-        body: JSON.stringify({ managerCode, crewName }),
-      });
+  if (error) {
+    return (
+      <div>
+        <h2>에러가 발생했습니다.</h2>
+        <p>{error.message}</p>
+        <button onClick={clearError}>재시도하기</button>
+      </div>
+    );
+  }
 
-      setCrews(data);
-    } catch (error) {
-      if (error instanceof APIError) alert(error.message);
-      else throw error;
-    }
+  const requestCrews = async () => {
+    const data = await http.get<string[]>('/api/crew');
+
+    setCrews(data);
   };
 
   if (crews.length === 0) return <div>등록된 크루가 없습니다.</div>;
@@ -46,3 +57,28 @@ const DeleteCrewTryCatch = () => {
 };
 
 export default DeleteCrewTryCatch;
+
+// type ResponseDeleteCrew = string[];
+
+// const DeleteCrew = () => {
+//   const [crews, setCrews] = useState<string[]>([]);
+
+//   const { mutate, error, clearError } = useMutation<ResponseDeleteCrew>({
+//     onSuccess: (data) => setCrews(data),
+//   });
+
+//   const deleteCrew = () => {
+//     mutate(() => http.delete('/api/crew'));
+//   };
+
+//   if (error) {
+//     return (
+//       <div>
+//         <h2>에러가 발생했습니다.</h2>
+//         <p>{error.message}</p>
+//         <button onClick={clearError}>재시도하기</button>
+//       </div>
+//     );
+//   }
+//   // ...
+// };
